@@ -1,0 +1,84 @@
+@font-face{
+	font-family: 'MINE-SWEEPER';
+	src: url('mine-sweeper.ttf');
+}
+@font-face{
+	font-family: 'Digital-7';
+	src: url('digital-7.ttf');
+}
+.root{
+	-fx-font-family: 'MINE-SWEEPER';
+	-fx-font-size: 14px;
+	-fx-background-color: #B9B9B9;
+	-fx-border-color: #FDFCFD #757575 #757575 #FDFCFD;
+	-fx-border-width: 4;
+	-fx-border-style: solid inside line-join miter 1;
+}
+.container{
+	-fx-border-color: #757575 #FDFCFD #FDFCFD #757575;
+	-fx-border-width: 4;
+	-fx-border-style: solid inside line-join miter 1;
+}
+.grid{
+	-fx-font-size: 10px;
+}
+.button{
+	-fx-background-radius: 0;
+	-fx-background-color: #B9B9B9;
+	-fx-border-color: #FDFCFD #757575 #757575 #FDFCFD;
+	-fx-border-width: 4;
+	-fx-border-style: solid inside line-join miter 1;
+}
+.revealed{
+	-fx-border-color: #757575;
+	-fx-border-width: 1;
+}
+.bombCounter{
+	-fx-font-family: 'Digital-7';
+	-fx-background-color: #000000;
+	-fx-font-size: 53px;
+}
+.hasBackground{
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: contain;
+	-fx-background-position: center;
+}
+.flagged{
+	-fx-background-image: url('minesweeperFlag.png');
+}
+.won{
+	-fx-background-image: url('minesweeperCoolface.png');
+}
+.lost{
+	-fx-background-image: url('minesweeperSadface.png');
+}
+.ingame{
+	-fx-background-image: url('minesweeperSmileyface.png');
+}
+.pressed{
+	-fx-background-image: url('minesweeperWowface.png');
+}
+.blue{
+	-fx-text-fill: #0000FF;
+}
+.green{
+	-fx-text-fill: #008200;
+}
+.red{
+	-fx-text-fill: #FF0000;
+}
+.darkblue{
+	-fx-text-fill: #000084;
+}
+.brown{
+	-fx-text-fill: #840000;
+}
+.cyan{
+	-fx-text-fill: #008284;
+}
+.pink{
+	-fx-text-fill: #840084;
+}
+.gray{
+	-fx-text-fill: #757575;
+}
