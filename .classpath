@@ -7,8 +7,8 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
-	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/minesweeper/openjfx/lib/javafx.base.jar"/>
-	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/minesweeper/openjfx/lib/javafx.graphics.jar"/>
-	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/minesweeper/openjfx/lib/javafx.controls.jar"/>
-	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/minesweeper/openjfx/lib/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/libraries/openjfx/lib/javafx.base.jar"/>
+	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/libraries/openjfx/lib/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/libraries/openjfx/lib/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="/Users/Hermann/Documents/dev/libraries/openjfx/lib/javafx.fxml.jar"/>
 </classpath>
