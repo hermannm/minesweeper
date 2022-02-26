@@ -1,43 +1,48 @@
-package app;
+package dev.hermannm.minesweeper.io;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import dev.hermannm.minesweeper.game.Field;
+import dev.hermannm.minesweeper.game.Board;
+import dev.hermannm.minesweeper.game.Game;
+
 public class IO implements IOInterface {
-	public void save(String filename, Minesweeper game) throws IOException{
+	public void save(String filename, Game game) throws IOException {
 		PrintWriter writer = new PrintWriter(filename);
 		int bombCounter = game.getBombCounter();
-		boolean[] gameStatus = {game.getGameOver(), game.getGameWon(), game.getFirstClick()};
+		boolean[] gameStatus = { game.getGameOver(), game.getGameWon(), game.getFirstClick() };
 		String firstLine = bombCounter + ",";
-		for(boolean b : gameStatus) {
+		for (boolean b : gameStatus) {
 			firstLine += b + ",";
 		}
-		writer.println(firstLine.substring(0,firstLine.length() - 1));
-		Gameboard board = game.getBoard();
-		int[] boardStatus = {board.getColumns(), board.getRows(), board.getNumberOfBombs()};
+		writer.println(firstLine.substring(0, firstLine.length() - 1));
+		Board board = game.getBoard();
+		int[] boardStatus = { board.getColumns(), board.getRows(), board.getNumberOfBombs() };
 		String secondLine = "";
-		for(int i : boardStatus) {
+		for (int i : boardStatus) {
 			secondLine += i + ",";
 		}
-		writer.println(secondLine.substring(0,secondLine.length() - 1));
-		for(int y = 0; y < board.getRows(); y++) {
-			for(int x = 0; x < board.getColumns(); x++) {
-				Field field = board.getField(x,y);
+		writer.println(secondLine.substring(0, secondLine.length() - 1));
+		for (int y = 0; y < board.getRows(); y++) {
+			for (int x = 0; x < board.getColumns(); x++) {
+				Field field = board.getField(x, y);
 				int adjacentBombs = field.getAdjacentBombs();
-				boolean[] fieldStatus = {field.isBomb(), field.isHidden(), field.flagged()};
+				boolean[] fieldStatus = { field.isBomb(), field.isHidden(), field.flagged() };
 				String line = adjacentBombs + ",";
-				for(boolean b : fieldStatus) {
+				for (boolean b : fieldStatus) {
 					line += b + ",";
 				}
-				writer.println(line.substring(0,line.length() - 1));
+				writer.println(line.substring(0, line.length() - 1));
 			}
 		}
 		writer.flush();
 		writer.close();
 	}
-	public Minesweeper load(String filename) throws IOException{
+
+	public Game load(String filename) throws IOException {
 		Scanner scanner = new Scanner(new File(filename));
 		String[] gameLine = scanner.nextLine().split(",");
 		int bombCounter = Integer.parseInt(gameLine[0]);
@@ -49,8 +54,8 @@ public class IO implements IOInterface {
 		int rows = Integer.parseInt(boardLine[1]);
 		int numberOfBombs = Integer.parseInt(boardLine[2]);
 		Field[][] grid = new Field[columns][rows];
-		for(int y = 0; y < rows; y++) {
-			for(int x = 0; x < columns; x++) {
+		for (int y = 0; y < rows; y++) {
+			for (int x = 0; x < columns; x++) {
 				String[] fieldLine = scanner.nextLine().split(",");
 				int adjacentBombs = Integer.parseInt(fieldLine[0]);
 				boolean bomb = Boolean.parseBoolean(fieldLine[1]);
@@ -60,8 +65,8 @@ public class IO implements IOInterface {
 			}
 		}
 		scanner.close();
-		Gameboard board = new Gameboard(grid,columns,rows,numberOfBombs);
-		Minesweeper game = new Minesweeper(board, bombCounter, gameOver, gameWon, firstClick);
+		Board board = new Board(grid, columns, rows, numberOfBombs);
+		Game game = new Game(board, bombCounter, gameOver, gameWon, firstClick);
 		return game;
 	}
 }
