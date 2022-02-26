@@ -6,13 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-public class GUI {
+/** Manages the JavaFX stage, and which scene is set on it. */
+public class StageManager {
 	private Controller controller;
 	private Stage stage;
 	private MainMenu menu;
 	private PlayMode playMode;
 
-	public GUI(Stage stage, Controller controller) {
+	public StageManager(Stage stage, Controller controller) {
 		this.controller = controller;
 		this.menu = new MainMenu(this.controller);
 		this.stage = stage;
@@ -22,28 +23,34 @@ public class GUI {
 		stage.show();
 	}
 
-	public void setStage(Stage stage) {
-		this.stage = stage;
-		this.stage.setResizable(false);
-	}
-
+	/** Updates the stage's scene. */
 	public void updateScene(Scene scene) {
 		stage.setScene(scene);
 	}
 
+	/** Returns the scene for the main menu. */
 	public Scene getMenuScene() {
 		return menu.getScene();
 	}
 
+	/** Returns the scene for the game's active play mode. */
 	public Scene getPlayModeScene() {
 		return playMode.getScene();
 	}
 
+	/**
+	 * Initializes the active play mode with the given values,
+	 * then updates the scene to the play mode.
+	 */
 	public void initializePlayMode(Board board, boolean gameWon, boolean gameOver, int bombCounter) {
 		playMode = new PlayMode(this.controller, board, gameWon, gameOver, bombCounter);
 		updateScene(getPlayModeScene());
 	}
 
+	/**
+	 * Updates the play mode scene with the given values,
+	 * and also updates the grid to reflect changes on the board.
+	 */
 	public void updatePlayMode(boolean gameWon, boolean gameOver, int bombCounter) {
 		playMode.updateGrid();
 		playMode.updateMenuButton(gameWon, gameOver);

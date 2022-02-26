@@ -5,7 +5,7 @@ import java.io.IOException;
 import dev.hermannm.minesweeper.game.Field;
 import dev.hermannm.minesweeper.game.Board;
 import dev.hermannm.minesweeper.game.Game;
-import dev.hermannm.minesweeper.gui.GUI;
+import dev.hermannm.minesweeper.gui.StageManager;
 import dev.hermannm.minesweeper.io.IO;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,20 +13,20 @@ import javafx.stage.Stage;
 
 public class Controller {
 	Game game;
-	GUI gui;
+	StageManager stageManager;
 	IO io;
 
 	public Controller(Stage stage) {
 		this.io = new IO();
-		this.gui = new GUI(stage, this);
+		this.stageManager = new StageManager(stage, this);
 	}
 
 	public void showMenu() {
-		gui.updateScene(gui.getMenuScene());
+		stageManager.updateScene(stageManager.getMenuScene());
 	}
 
 	public void updateBoard() {
-		gui.updatePlayMode(game.getGameWon(), game.getGameOver(), game.getBombCounter());
+		stageManager.updatePlayMode(game.getGameWon(), game.getGameOver(), game.getBombCounter());
 	}
 
 	public void handleClick(Field field) {
@@ -46,7 +46,7 @@ public class Controller {
 
 	public void newGame(int columns, int rows, int numberOfBombs) {
 		game = new Game(new Board(columns, rows, numberOfBombs));
-		gui.initializePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
+		stageManager.initializePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
 	}
 
 	public void save() {
