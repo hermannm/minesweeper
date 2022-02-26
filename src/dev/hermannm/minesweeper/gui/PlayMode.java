@@ -122,6 +122,8 @@ public class PlayMode {
 			bombCounterLabel[i].getStyleClass().add("red");
 		}
 
+		updateBombCounter(bombCounter);
+
 		// Sets up the container for the bomb counter labels.
 		HBox bombCounterBox = new HBox(bombCounterLabel[0], bombCounterLabel[1], bombCounterLabel[2]);
 		BorderPane.setMargin(bombCounterBox, new Insets(5, 0, 5, 5));
@@ -231,7 +233,7 @@ public class PlayMode {
 	}
 
 	public void updateFieldButton(Button fieldButton, Field field) {
-		fieldButton.getStyleClass().clear();
+		fieldButton.getStyleClass().removeAll("hasBackground", "flagged");
 
 		if (field.isHidden()) {
 			if (field.flagged()) {

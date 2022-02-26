@@ -41,6 +41,7 @@ public class GUI {
 
 	public void initializePlayMode(Board board, boolean gameWon, boolean gameOver, int bombCounter) {
 		playMode = new PlayMode(this.controller, board, gameWon, gameOver, bombCounter);
+		updateScene(getPlayModeScene());
 	}
 
 	public void updatePlayMode(boolean gameWon, boolean gameOver, int bombCounter) {
