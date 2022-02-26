@@ -9,15 +9,16 @@ import dev.hermannm.minesweeper.gui.GUI;
 import dev.hermannm.minesweeper.io.IO;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 
 public class Controller {
 	Game game;
 	GUI gui;
 	IO io;
 
-	public Controller(GUI gui) {
-		this.gui = gui;
+	public Controller(Stage stage) {
 		this.io = new IO();
+		this.gui = new GUI(stage, this);
 	}
 
 	public void showMenu() {
@@ -25,7 +26,7 @@ public class Controller {
 	}
 
 	public void updateBoard() {
-		gui.updateScene(gui.boardScene(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter()));
+		gui.updatePlayMode(game.getGameWon(), game.getGameOver(), game.getBombCounter());
 	}
 
 	public void handleClick(Field field) {
@@ -45,7 +46,7 @@ public class Controller {
 
 	public void newGame(int columns, int rows, int numberOfBombs) {
 		game = new Game(new Board(columns, rows, numberOfBombs));
-		updateBoard();
+		gui.initializePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
 	}
 
 	public void save() {
