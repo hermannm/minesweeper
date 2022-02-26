@@ -21,7 +21,7 @@ public class Controller {
 	}
 
 	public void showMenu() {
-		gui.updateScene(gui.menu());
+		gui.updateScene(gui.getMenuScene());
 	}
 
 	public void updateBoard() {

@@ -15,20 +15,21 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class GUI {
-	Controller controller;
+	private Controller controller;
 	private Stage stage;
 	private final String[] numberColors = { "blue", "green", "red", "darkblue", "brown", "cyan", "pink", "gray" };
+	private MainMenu menu;
 
 	public GUI(Stage stage) {
 		this.controller = new Controller(this);
+		this.menu = new MainMenu(this.controller);
 		this.stage = stage;
 		stage.setTitle("Minesweeper");
 		stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/minesweeper.png")));
-		stage.setScene(this.menu());
+		stage.setScene(this.getMenuScene());
 		stage.show();
 	}
 
@@ -39,6 +40,10 @@ public class GUI {
 
 	public void updateScene(Scene scene) {
 		stage.setScene(scene);
+	}
+
+	public Scene getMenuScene() {
+		return menu.getScene();
 	}
 
 	public Scene boardScene(Board board, boolean gameWon, boolean gameOver, int bombCounter) {
@@ -150,31 +155,6 @@ public class GUI {
 				}
 				grid.add(fieldButton, x, y);
 			}
-		}
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add((getClass().getResource("/styles.css")).toString());
-		return scene;
-	}
-
-	public Scene menu() {
-		Label title = new Label("Minesweeper");
-		VBox buttons = new VBox(), root = new VBox(title, buttons);
-		String[] modes = { "Easy", "Normal", "Hard", "Insanity" };
-		int[][] modeParameters = { { 8, 8, 10 }, { 16, 16, 40 }, { 30, 16, 99 }, { 30, 16, 470 } };
-		root.setAlignment(Pos.CENTER);
-		root.setSpacing(10);
-		root.setPadding(new Insets(10));
-		buttons.getStyleClass().add("container");
-		for (int i = 0; i < modes.length; i++) {
-			int j = i;
-			String mode = modes[i];
-			Button modeButton = new Button(mode + " Mode");
-			modeButton.setPrefWidth(250);
-			modeButton.getStyleClass().add(numberColors[i]);
-			modeButton.setOnAction(e -> {
-				controller.newGame(modeParameters[j][0], modeParameters[j][1], modeParameters[j][2]);
-			});
-			buttons.getChildren().add(modeButton);
 		}
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add((getClass().getResource("/styles.css")).toString());
