@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -22,8 +23,13 @@ public class GUI {
 	private Stage stage;
 	private final String[] numberColors = { "blue", "green", "red", "darkblue", "brown", "cyan", "pink", "gray" };
 
-	public GUI() {
+	public GUI(Stage stage) {
 		this.controller = new Controller(this);
+		this.stage = stage;
+		stage.setTitle("Minesweeper");
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/minesweeper.png")));
+		stage.setScene(this.menu());
+		stage.show();
 	}
 
 	public void setStage(Stage stage) {
