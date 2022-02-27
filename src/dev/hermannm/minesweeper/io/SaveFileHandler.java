@@ -9,7 +9,7 @@ import dev.hermannm.minesweeper.game.Field;
 import dev.hermannm.minesweeper.game.Board;
 import dev.hermannm.minesweeper.game.Game;
 
-public class IO implements IOInterface {
+public class SaveFileHandler implements GameSaver, GameLoader {
 	public void save(String filename, Game game) throws IOException {
 		PrintWriter writer = new PrintWriter(filename);
 		int bombCounter = game.getBombCounter();

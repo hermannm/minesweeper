@@ -6,17 +6,17 @@ import dev.hermannm.minesweeper.game.Field;
 import dev.hermannm.minesweeper.game.Board;
 import dev.hermannm.minesweeper.game.Game;
 import dev.hermannm.minesweeper.gui.StageManager;
-import dev.hermannm.minesweeper.io.IO;
+import dev.hermannm.minesweeper.io.SaveFileHandler;
 import javafx.stage.Stage;
 
 /** Serves as a middle man between the game, the GUI and IO handling. */
 public class Controller {
 	Game game;
 	StageManager stageManager;
-	IO io;
+	SaveFileHandler saveHandler;
 
 	public Controller(Stage stage) {
-		this.io = new IO();
+		this.saveHandler = new SaveFileHandler();
 		this.stageManager = new StageManager(stage, this);
 	}
 
@@ -63,7 +63,7 @@ public class Controller {
 	 */
 	public void save() {
 		try {
-			io.save("minesweeper_save.txt", game);
+			saveHandler.save("minesweeper_save.txt", game);
 		} catch (IOException e) {
 			stageManager.handleError("File could not be saved.");
 		}
@@ -75,7 +75,7 @@ public class Controller {
 	 */
 	public void load() {
 		try {
-			game = io.load("minesweeper_save.txt");
+			game = saveHandler.load("minesweeper_save.txt");
 			updateBoard();
 		} catch (IOException e) {
 			stageManager.handleError("Save file could not be found.");
