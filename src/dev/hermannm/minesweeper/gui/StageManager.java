@@ -3,6 +3,8 @@ package dev.hermannm.minesweeper.gui;
 import dev.hermannm.minesweeper.Controller;
 import dev.hermannm.minesweeper.game.Board;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -55,5 +57,11 @@ public class StageManager {
 		playMode.updateGrid();
 		playMode.updateMenuButton(gameWon, gameOver);
 		playMode.updateBombCounter(bombCounter);
+	}
+
+	public void handleError(String errorMsg) {
+		Alert error = new Alert(AlertType.ERROR);
+		error.setContentText("Previous save file could not be found.");
+		error.showAndWait();
 	}
 }
