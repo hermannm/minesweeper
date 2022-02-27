@@ -1,6 +1,6 @@
 # Minesweeper
 
-Java implementation of the classic Minesweeper game, using JavaFX for the graphics. Created as part of a [course on object-oriented programming](https://www.ntnu.edu/studies/courses/TDT4100#tab=omEmnet) at NTNU Trondheim, spring 2019. Updated for distributability spring 2022.
+Java implementation of the classic Minesweeper game, using JavaFX for the graphics. Created as part of a [course on object-oriented programming](https://www.ntnu.edu/studies/courses/TDT4100#tab=omEmnet) at NTNU Trondheim, spring 2019. Updated for readability and distributability spring 2022.
 
 **Table of Contents**
 
