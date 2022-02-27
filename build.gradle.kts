@@ -1,28 +1,23 @@
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
+    // Applies the application plugin to add support for building a Java app.
     application
 
-    // Apply OpenJFX plugin for JavaFX.
+    // Applies OpenJFX plugin for JavaFX.
     id("org.openjfx.javafxplugin") version "0.0.12"
 }
 
-// Configure JavaFX plugin.
+// Configures the JavaFX plugin.
 javafx {
     version = "17.0.2"
     modules("javafx.controls")
 }
 
 repositories {
-    // Use Maven Central for resolving dependencies.
+    // Uses Maven Central for resolving dependencies.
     mavenCentral()
 }
 
-dependencies {
-    // This dependency is used by the application.
-    implementation("com.google.guava:guava:30.1.1-jre")
-}
-
-// Reconfigure default source sets for simpler folder structure.
+// Reconfigures default source sets for simpler folder structure.
 sourceSets {
     main {
         java {
@@ -35,6 +30,25 @@ sourceSets {
 }
 
 application {
-    // Define the main class for the application.
-    mainClass.set("dev.hermannm.minesweeper.App")
+    // Defines the main class for the application.
+    mainClass.set("dev.hermannm.minesweeper.Main")
+}
+
+tasks {
+    // Configures the jar task to produce a fat jar with all dependencies.
+    jar {
+        dependsOn.addAll(listOf("compileJava", "processResources"))
+
+        archiveBaseName.set("minesweeper")
+
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        manifest { attributes(mapOf("Main-Class" to application.mainClass)) }
+
+        val sourcesMain = sourceSets.main.get()
+        val contents = configurations.runtimeClasspath.get()
+            .map { if (it.isDirectory) it else zipTree(it) } + sourcesMain.output
+        
+        from(contents)
+    }
 }

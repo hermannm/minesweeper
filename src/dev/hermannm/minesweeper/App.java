@@ -3,7 +3,7 @@ package dev.hermannm.minesweeper;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-/** Entry point of the application. */
+/** Entry point of the JavaFX application. */
 public class App extends Application {
     Controller controller;
 
