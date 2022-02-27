@@ -1,9 +1,13 @@
 package dev.hermannm.minesweeper.game;
 
+/** Stores state for fields on the Minesweeper board. */
 public class Field {
 	private int adjacentBombs;
-	private boolean bomb, hidden, flag;
+	private boolean bomb;
+	private boolean hidden;
+	private boolean flag;
 
+	/** Instantiates a field with default values. */
 	public Field() {
 		adjacentBombs = 0;
 		bomb = false;
@@ -11,6 +15,7 @@ public class Field {
 		flag = false;
 	}
 
+	/** Instantiates a field with the given values. */
 	public Field(int adjacentBombs, boolean bomb, boolean hidden, boolean flag) {
 		this.adjacentBombs = adjacentBombs;
 		this.bomb = bomb;

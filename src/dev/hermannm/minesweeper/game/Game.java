@@ -2,16 +2,37 @@ package dev.hermannm.minesweeper.game;
 
 import java.util.List;
 
+/** Handles the game logic of Minesweeper. */
 public class Game {
-	Board board;
-	private int bombCounter;
-	private boolean gameOver = false, gameWon = false, firstClick = true;
+	private Board board;
+	private boolean gameOver;
+	private boolean gameWon;
 
+	/**
+	 * The firstClick field is used to ensure that the player's
+	 * first click is never a bomb, nor adjacent to a bomb.
+	 */
+	private boolean firstClick;
+
+	/**
+	 * The bomb counter tracks how many total bombs there are on the board,
+	 * minus the amount of fields the player has flagged as bombs.
+	 */
+	private int bombCounter;
+
+	/**
+	 * Instantiates a game with the given board,
+	 * and sets default values for other fields.
+	 */
 	public Game(Board board) {
 		this.board = board;
 		bombCounter = board.getNumberOfBombs();
+		gameOver = false;
+		gameWon = false;
+		firstClick = true;
 	}
 
+	/** Instantiates a game with the given board and fields. */
 	public Game(Board board, int bombCounter, boolean gameOver, boolean gameWon, boolean firstClick) {
 		this.board = board;
 		this.bombCounter = bombCounter;
@@ -40,34 +61,40 @@ public class Game {
 		return firstClick;
 	}
 
+	/**
+	 * Reveals the given field on the board.
+	 * Recursively reveals adjacent fields that have no adjacent bombs.
+	 * If field is a bomb, triggers game loss.
+	 */
 	public void clickField(Field field) {
-		List<Field> adjacentFields = board.getAdjacentFields(field);
-
 		if (!field.isHidden() || field.flagged() || gameOver || gameWon) {
 			return;
 		}
 
+		// If this is the player's first click and the field
+		// is a bomb or next to a bomb, moves the bombs.
 		if (firstClick) {
 			if (field.isBomb() || !(field.getAdjacentBombs() == 0)) {
-				this.moveBomb(field);
+				board.moveBomb(field);
 			}
 			firstClick = false;
 		}
 
 		if (field.isBomb()) {
-			this.gameOver();
+			gameOver();
 		} else {
 			field.reveal();
 			if (field.getAdjacentBombs() == 0) {
-				for (Field f : adjacentFields) {
-					this.clickField(f);
+				for (Field adjacent : board.getAdjacentFields(field)) {
+					clickField(adjacent);
 				}
 			}
 		}
 
-		this.checkWin();
+		checkWin();
 	}
 
+	/** Flags/unflags the given field, and adjusts the bomb counter accordingly. */
 	public void flagField(Field field) {
 		if (!field.isHidden() || gameOver || gameWon) {
 			return;
@@ -82,12 +109,17 @@ public class Game {
 		}
 	}
 
+	/**
+	 * Reveals fields next to the given revealed field,
+	 * though only if the player has flagged a number of adjacent
+	 * fields equal to the number of adjacent bombs.
+	 */
 	public void revealAdjacentFields(Field field) {
-		List<Field> adjacentFields = board.getAdjacentFields(field);
-
 		if (gameOver || gameWon) {
 			return;
 		}
+
+		List<Field> adjacentFields = board.getAdjacentFields(field);
 
 		int adjacentFlags = 0;
 		for (Field f : adjacentFields) {
@@ -103,6 +135,7 @@ public class Game {
 		}
 	}
 
+	/** Ends the game, revealing all fields. */
 	public void gameOver() {
 		gameOver = true;
 
@@ -118,6 +151,7 @@ public class Game {
 		bombCounter = board.getNumberOfBombs();
 	}
 
+	/** Updates the gameWon field if the player has won. */
 	public void checkWin() {
 		if (gameOver) {
 			return;
@@ -142,36 +176,5 @@ public class Game {
 		}
 
 		gameWon = true;
-	}
-
-	public void moveBomb(Field field) {
-		List<Field> adjacentFields = board.getAdjacentFields(field);
-		List<Field> emptyFields = board.getEmptyFields();
-		int bombsToMove = 0;
-
-		if (field.isBomb()) {
-			field.removeBomb();
-			bombsToMove++;
-		} else {
-			emptyFields.remove(field);
-		}
-
-		for (Field f : adjacentFields) {
-			if (f.isBomb()) {
-				f.removeBomb();
-				bombsToMove++;
-			} else {
-				emptyFields.remove(f);
-			}
-		}
-
-		for (int i = 0; i < bombsToMove; i++) {
-			int randomIndex = (int) Math.floor(Math.random() * emptyFields.size());
-			Field randomEmptyField = emptyFields.get(randomIndex);
-			randomEmptyField.setBomb();
-			emptyFields.remove(randomEmptyField);
-		}
-
-		board.checkAdjacentBombs();
 	}
 }
