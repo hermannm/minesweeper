@@ -115,18 +115,24 @@ public class Board {
 		}
 	}
 
-	/** Randomly sets the appropriate number of fields as bombs. */
+	/** Sets the appropriate number of random fields as bombs. */
 	public void plantBombs() {
-		for (int i = 0; i < numberOfBombs; i++) {
-			int randomX = (int) (Math.random() * columns);
-			int randomY = (int) (Math.random() * rows);
-			Field field = this.getField(randomX, randomY);
+		List<int[]> allCoords = new ArrayList();
 
-			if (field.isBomb()) {
-				i--;
-			} else {
-				field.setBomb();
+		for (int y = 0; y < rows; y++) {
+			for (int x = 0; x < columns; x++) {
+				allCoords.add(new int[] { x, y });
 			}
+		}
+
+		for (int i = 0; i < numberOfBombs; i++) {
+			int randomIndex = (int) Math.floor(Math.random() * allCoords.size());
+			int[] randomCoord = allCoords.get(randomIndex);
+
+			Field field = this.getField(randomCoord[0], randomCoord[1]);
+			field.setBomb();
+
+			allCoords.remove(randomCoord);
 		}
 	}
 
