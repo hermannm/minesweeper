@@ -139,9 +139,10 @@ public class Game {
 	public void gameOver() {
 		gameOver = true;
 
-		for (int y = 0; y < board.getRows(); y++) {
-			for (int x = 0; x < board.getColumns(); x++) {
+		for (int x = 0; x < board.getColumns(); x++) {
+			for (int y = 0; y < board.getRows(); y++) {
 				Field field = board.getField(x, y);
+
 				if (field.isBomb()) {
 					field.reveal();
 				}
@@ -157,18 +158,22 @@ public class Game {
 			return;
 		}
 
-		for (int y = 0; y < board.getRows(); y++) {
-			for (int x = 0; x < board.getColumns(); x++) {
+		// If player has revealed all non-bomb fields, they win.
+		for (int x = 0; x < board.getColumns(); x++) {
+			for (int y = 0; y < board.getRows(); y++) {
 				Field field = board.getField(x, y);
-				if (!field.isBomb() && field.isHidden()) {
+
+				if (field.isHidden() && !field.isBomb()) {
 					return;
 				}
 			}
 		}
 
-		for (int y = 0; y < board.getRows(); y++) {
-			for (int x = 0; x < board.getColumns(); x++) {
+		// Flags remaining unflagged bomb fields.
+		for (int x = 0; x < board.getColumns(); x++) {
+			for (int y = 0; y < board.getRows(); y++) {
 				Field field = board.getField(x, y);
+
 				if (!field.flagged()) {
 					this.flagField(field);
 				}

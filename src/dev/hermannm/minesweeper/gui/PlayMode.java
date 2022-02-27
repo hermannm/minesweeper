@@ -157,11 +157,11 @@ public class PlayMode {
 
 		// Goes through each row and column of the board,
 		// and sets up a button for each field.
-		for (int y = 0; y < board.getRows(); y++) {
-			grid.getRowConstraints().add(new RowConstraints());
+		for (int x = 0; x < board.getColumns(); x++) {
+			grid.getColumnConstraints().add(new ColumnConstraints());
 
-			for (int x = 0; x < board.getColumns(); x++) {
-				grid.getColumnConstraints().add(new ColumnConstraints());
+			for (int y = 0; y < board.getRows(); y++) {
+				grid.getRowConstraints().add(new RowConstraints());
 
 				Button fieldButton = makeFieldButton(fieldSize);
 				boardGrid[x][y] = fieldButton;
@@ -195,8 +195,8 @@ public class PlayMode {
 
 	/** Updates each button in the grid to reflect the fields on the board. */
 	public void updateGrid() {
-		for (int y = 0; y < board.getRows(); y++) {
-			for (int x = 0; x < board.getColumns(); x++) {
+		for (int x = 0; x < board.getColumns(); x++) {
+			for (int y = 0; y < board.getRows(); y++) {
 				Field field = board.getField(x, y);
 				Button fieldButton = boardGrid[x][y];
 				updateFieldButton(fieldButton, field);

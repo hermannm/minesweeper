@@ -26,7 +26,8 @@ public class Board {
 			this.columns = columns;
 			this.rows = rows;
 			this.numberOfBombs = numberOfBombs;
-			grid = new Field[columns][rows];
+			this.grid = new Field[columns][rows];
+
 			fillBoard();
 			plantBombs();
 			updateAdjacentBombs();
@@ -72,8 +73,8 @@ public class Board {
 
 		// Adds the field's neighbors to the list.
 		// Makes sure that the board's edges are respected.
-		for (int y = 0; y < rows; y++) {
-			for (int x = 0; x < columns; x++) {
+		for (int x = 0; x < columns; x++) {
+			for (int y = 0; y < rows; y++) {
 				if (getField(x, y) == field) {
 					if (x >= 1) {
 						adjacentFields.add(getField(x - 1, y));
@@ -108,8 +109,8 @@ public class Board {
 
 	/** Fills the board with default fields. */
 	public void fillBoard() {
-		for (int y = 0; y < rows; y++) {
-			for (int x = 0; x < columns; x++) {
+		for (int x = 0; x < columns; x++) {
+			for (int y = 0; y < rows; y++) {
 				grid[x][y] = new Field();
 			}
 		}
@@ -117,10 +118,10 @@ public class Board {
 
 	/** Sets the appropriate number of random fields as bombs. */
 	public void plantBombs() {
-		List<int[]> allCoords = new ArrayList();
+		List<int[]> allCoords = new ArrayList<>();
 
-		for (int y = 0; y < rows; y++) {
-			for (int x = 0; x < columns; x++) {
+		for (int x = 0; x < columns; x++) {
+			for (int y = 0; y < rows; y++) {
 				allCoords.add(new int[] { x, y });
 			}
 		}

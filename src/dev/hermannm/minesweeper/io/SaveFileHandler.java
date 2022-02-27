@@ -35,8 +35,8 @@ public class SaveFileHandler implements GameSaver, GameLoader {
 		writer.println(secondLine);
 
 		// Writes a line for each field on the board.
-		for (int y = 0; y < board.getRows(); y++) {
-			for (int x = 0; x < board.getColumns(); x++) {
+		for (int x = 0; x < board.getColumns(); x++) {
+			for (int y = 0; y < board.getRows(); y++) {
 				Field field = board.getField(x, y);
 
 				String fieldLine = field.getAdjacentBombs() + ",";
@@ -73,8 +73,8 @@ public class SaveFileHandler implements GameSaver, GameLoader {
 
 		// Parses the remaining lines with the status for each field.
 		Field[][] grid = new Field[columns][rows];
-		for (int y = 0; y < rows; y++) {
-			for (int x = 0; x < columns; x++) {
+		for (int x = 0; x < columns; x++) {
+			for (int y = 0; y < rows; y++) {
 				String[] fieldLine = scanner.nextLine().split(",");
 
 				int adjacentBombs = Integer.parseInt(fieldLine[0]);
