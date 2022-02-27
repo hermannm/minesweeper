@@ -22,6 +22,19 @@ Java implementation of the classic Minesweeper game, using JavaFX for the graphi
 
 ## Running the App
 
+### Through the JAR
+
+1. Download the latest `minesweeper.jar` from Releases (https://github.com/hermannm/minesweeper/releases)
+
+2. Double click the downloaded `.jar` to run it!
+   - Mac users may have to allow it through `System Preferences -> Security & Privacy`
+
+You can also run the JAR from the terminal:
+
+```
+java -jar minesweeper.jar
+```
+
 ### Through Gradle
 
 1. Clone the repo
