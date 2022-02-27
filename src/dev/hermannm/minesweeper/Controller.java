@@ -63,7 +63,7 @@ public class Controller {
 	 */
 	public void save() {
 		try {
-			saveHandler.save("minesweeper_save.txt", game);
+			saveHandler.save(game, "minesweeper_save.txt");
 		} catch (IOException e) {
 			stageManager.handleError("File could not be saved.");
 		}

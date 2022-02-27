@@ -5,5 +5,5 @@ import java.io.IOException;
 import dev.hermannm.minesweeper.game.Game;
 
 public interface GameSaver {
-	void save(String filename, Game game) throws IOException;
+	void save(Game game, String filename) throws IOException;
 }
