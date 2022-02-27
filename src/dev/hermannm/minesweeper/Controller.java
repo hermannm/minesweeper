@@ -27,7 +27,7 @@ public class Controller {
 
 	/** Calls on the stage manager to reflect new changes on the board. */
 	public void updateBoard() {
-		stageManager.updatePlayMode(game.getGameWon(), game.getGameOver(), game.getBombCounter());
+		stageManager.updatePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
 	}
 
 	/** Calls on the game to handle the clicked field, and then updates the view. */
@@ -76,7 +76,11 @@ public class Controller {
 	public void load() {
 		try {
 			game = saveHandler.load("minesweeper_save.txt");
-			updateBoard();
+			stageManager.initializePlayMode(
+					game.getBoard(),
+					game.getGameWon(),
+					game.getGameOver(),
+					game.getBombCounter());
 		} catch (IOException e) {
 			stageManager.handleError("Save file could not be found.");
 		}

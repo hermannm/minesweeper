@@ -20,7 +20,6 @@ import javafx.scene.layout.RowConstraints;
 public class PlayMode {
 	private Scene scene;
 	private Controller controller;
-	private Board board;
 
 	// UI elements stored as state to avoid full rerender on update.
 	private Label[] bombCounterLabel;
@@ -29,7 +28,6 @@ public class PlayMode {
 
 	public PlayMode(Controller controller, Board board, boolean gameWon, boolean gameOver, int bombCounter) {
 		this.controller = controller;
-		this.board = board;
 
 		// Sets up the bomb counter, and updates it with starting value.
 		HBox bombCounterBox = makeBombCounter();
@@ -39,9 +37,9 @@ public class PlayMode {
 		Button menuButton = makeMenuButton();
 		updateMenuButton(gameWon, gameOver);
 
-		// Sets up the board grid, and updates it with starting values.
-		GridPane grid = makeGrid();
-		updateGrid();
+		// Sets up the board grid, and updates it based on the board.
+		GridPane grid = makeGrid(board);
+		updateGrid(board);
 
 		// Adds menu button and bomb counter and header.
 		BorderPane header = makeHeader(menuButton, bombCounterBox);
@@ -145,7 +143,7 @@ public class PlayMode {
 	 * Returns a grid with buttons for each of the board's fields,
 	 * and initializes the boardGrid state.
 	 */
-	private GridPane makeGrid() {
+	private GridPane makeGrid(Board board) {
 		GridPane grid = new GridPane();
 		this.boardGrid = new Button[board.getColumns()][board.getRows()];
 
@@ -194,7 +192,7 @@ public class PlayMode {
 	}
 
 	/** Updates each button in the grid to reflect the fields on the board. */
-	public void updateGrid() {
+	public void updateGrid(Board board) {
 		for (int x = 0; x < board.getColumns(); x++) {
 			for (int y = 0; y < board.getRows(); y++) {
 				Field field = board.getField(x, y);
@@ -207,9 +205,11 @@ public class PlayMode {
 	/** Updates the given field button to reflec the given field. */
 	public void updateFieldButton(Button fieldButton, Field field) {
 		// Clears out outdated styles.
-		fieldButton.getStyleClass().removeAll("hasBackground", "flagged");
+		fieldButton.getStyleClass().removeAll("hasBackground", "flagged", "revealed");
 
 		if (field.isHidden()) {
+			fieldButton.setText("");
+
 			// Sets flag icon.
 			if (field.flagged()) {
 				fieldButton.getStyleClass().addAll("hasBackground", "flagged");
@@ -245,7 +245,7 @@ public class PlayMode {
 			if (field.isBomb()) {
 				fieldButton.setText("*");
 			} else if (field.getAdjacentBombs() > 0) {
-				fieldButton.setText(field.getAdjacentBombs() + "");
+				fieldButton.setText(String.valueOf(field.getAdjacentBombs()));
 				fieldButton.getStyleClass().add(Constants.COLORS[field.getAdjacentBombs() - 1]);
 			}
 		}

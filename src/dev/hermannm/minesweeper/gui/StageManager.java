@@ -53,8 +53,8 @@ public class StageManager {
 	 * Updates the play mode scene with the given values,
 	 * and also updates the grid to reflect changes on the board.
 	 */
-	public void updatePlayMode(boolean gameWon, boolean gameOver, int bombCounter) {
-		playMode.updateGrid();
+	public void updatePlayMode(Board board, boolean gameWon, boolean gameOver, int bombCounter) {
+		playMode.updateGrid(board);
 		playMode.updateMenuButton(gameWon, gameOver);
 		playMode.updateBombCounter(bombCounter);
 	}
