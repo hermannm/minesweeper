@@ -12,12 +12,8 @@ Java implementation of the classic Minesweeper game, using JavaFX for the graphi
 ## Screenshots
 
 <p align="center">
-	<img align=middle alt="Menu screenshot" title="Menu screenshot" src="https://github.com/hermannm/minesweeper/blob/assets/menu_screenshot.png">
-	<img align=middle alt="Gameplay screenshot" title="Gameplay screenshot" src="https://github.com/hermannm/minesweeper/blob/assets/gameplay_screenshot.png">
-</p>
-
-<p align="center">
-	
+  <img align=middle alt="Menu screenshot" title="Menu screenshot" src="https://github.com/hermannm/minesweeper/blob/assets/menu_screenshot.png">
+  <img align=middle alt="Gameplay screenshot" title="Gameplay screenshot" src="https://github.com/hermannm/minesweeper/blob/assets/gameplay_screenshot.png">
 </p>
 
 ## Running the App

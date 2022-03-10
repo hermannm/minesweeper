@@ -11,78 +11,78 @@ import javafx.stage.Stage;
 
 /** Serves as a middle man between the game, the GUI and IO handling. */
 public class Controller {
-	Game game;
-	StageManager stageManager;
-	SaveFileHandler saveHandler;
+    Game game;
+    StageManager stageManager;
+    SaveFileHandler saveHandler;
 
-	public Controller(Stage stage) {
-		this.saveHandler = new SaveFileHandler();
-		this.stageManager = new StageManager(stage, this);
-	}
+    public Controller(Stage stage) {
+        this.saveHandler = new SaveFileHandler();
+        this.stageManager = new StageManager(stage, this);
+    }
 
-	/** Calls on the stage manager to show the main menu. */
-	public void showMenu() {
-		stageManager.updateScene(stageManager.getMenuScene());
-	}
+    /** Calls on the stage manager to show the main menu. */
+    public void showMenu() {
+        stageManager.updateScene(stageManager.getMenuScene());
+    }
 
-	/** Calls on the stage manager to reflect new changes on the board. */
-	public void updateBoard() {
-		stageManager.updatePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
-	}
+    /** Calls on the stage manager to reflect new changes on the board. */
+    public void updateBoard() {
+        stageManager.updatePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
+    }
 
-	/** Calls on the game to handle the clicked field, and then updates the view. */
-	public void handleClick(Field field) {
-		game.clickField(field);
-		updateBoard();
-	}
+    /** Calls on the game to handle the clicked field, and then updates the view. */
+    public void handleClick(Field field) {
+        game.clickField(field);
+        updateBoard();
+    }
 
-	/** Calls on the game handle the flagged field, and then updates the view. */
-	public void handleFlag(Field field) {
-		game.flagField(field);
-		updateBoard();
-	}
+    /** Calls on the game handle the flagged field, and then updates the view. */
+    public void handleFlag(Field field) {
+        game.flagField(field);
+        updateBoard();
+    }
 
-	/** Calls on the game to handle the click, and then updates the view. */
-	public void handleRevealAdjacent(Field field) {
-		game.revealAdjacentFields(field);
-		updateBoard();
-	}
+    /** Calls on the game to handle the click, and then updates the view. */
+    public void handleRevealAdjacent(Field field) {
+        game.revealAdjacentFields(field);
+        updateBoard();
+    }
 
-	/**
-	 * Initializes a new game with the given options,
-	 * and calls on the game manager to show the game.
-	 */
-	public void newGame(int columns, int rows, int numberOfBombs) {
-		game = new Game(new Board(columns, rows, numberOfBombs));
-		stageManager.initializePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
-	}
+    /**
+     * Initializes a new game with the given options,
+     * and calls on the game manager to show the game.
+     */
+    public void newGame(int columns, int rows, int numberOfBombs) {
+        game = new Game(new Board(columns, rows, numberOfBombs));
+        stageManager.initializePlayMode(game.getBoard(), game.getGameWon(), game.getGameOver(), game.getBombCounter());
+    }
 
-	/**
-	 * Calls on the IO handler to save the game,
-	 * and shows an error if it failed.
-	 */
-	public void save() {
-		try {
-			saveHandler.save(game, "minesweeper_save.txt");
-		} catch (IOException e) {
-			stageManager.handleError("File could not be saved.");
-		}
-	}
+    /**
+     * Calls on the IO handler to save the game,
+     * and shows an error if it failed.
+     */
+    public void save() {
+        try {
+            saveHandler.save(game, "minesweeper_save.txt");
+        } catch (IOException e) {
+            stageManager.handleError("File could not be saved.");
+        }
+    }
 
-	/**
-	 * Calls on the IO handler to load a game save file,
-	 * and shows an error if it failed.
-	 */
-	public void load() {
-		try {
-			game = saveHandler.load("minesweeper_save.txt");
-			stageManager.initializePlayMode(
-					game.getBoard(),
-					game.getGameWon(),
-					game.getGameOver(),
-					game.getBombCounter());
-		} catch (IOException e) {
-			stageManager.handleError("Save file could not be found.");
-		}
-	}
+    /**
+     * Calls on the IO handler to load a game save file,
+     * and shows an error if it failed.
+     */
+    public void load() {
+        try {
+            game = saveHandler.load("minesweeper_save.txt");
+            stageManager.initializePlayMode(
+                    game.getBoard(),
+                    game.getGameWon(),
+                    game.getGameOver(),
+                    game.getBombCounter());
+        } catch (IOException e) {
+            stageManager.handleError("Save file could not be found.");
+        }
+    }
 }
