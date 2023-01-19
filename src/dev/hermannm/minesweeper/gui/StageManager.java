@@ -8,19 +8,34 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 /** Manages the JavaFX stage, and which scene is set on it. */
 public class StageManager {
-    private Controller controller;
-    private Stage stage;
+    private final Controller controller;
+    private final Stage stage;
     private MainMenu menu;
     private PlayMode playMode;
 
     public StageManager(Stage stage, Controller controller) {
         this.controller = controller;
-        this.menu = new MainMenu(this.controller);
         this.stage = stage;
+
+        try {
+            this.menu = new MainMenu(this.controller);
+        } catch (FileNotFoundException exception) {
+            StageManager.showError(exception.getMessage());
+        }
+
+        try (InputStream icon = getClass().getResourceAsStream("/img/minesweeper.png")) {
+            assert icon != null;
+            stage.getIcons().add(new Image(icon));
+        } catch (Exception ignored) {
+            StageManager.showError("Minesweeper icon not found.");
+        }
+
         stage.setTitle(Constants.GAME_NAME);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/img/minesweeper.png")));
         stage.setScene(this.getMenuScene());
         stage.show();
     }
@@ -45,7 +60,12 @@ public class StageManager {
      * then updates the scene to the play mode.
      */
     public void initializePlayMode(Board board, boolean gameWon, boolean gameOver, int bombCounter) {
-        playMode = new PlayMode(this.controller, board, gameWon, gameOver, bombCounter);
+        try {
+            playMode = new PlayMode(this.controller, board, gameWon, gameOver, bombCounter);
+        } catch (FileNotFoundException exception) {
+            StageManager.showError(exception.getMessage());
+        }
+
         updateScene(getPlayModeScene());
     }
 
@@ -59,9 +79,12 @@ public class StageManager {
         playMode.updateBombCounter(bombCounter);
     }
 
-    public void handleError(String errorMsg) {
+    /**
+     * Shows a dialog with the given error message to the user.
+     */
+    public static void showError(String errorMessage) {
         Alert error = new Alert(AlertType.ERROR);
-        error.setContentText("Previous save file could not be found.");
+        error.setContentText(errorMessage);
         error.showAndWait();
     }
 }

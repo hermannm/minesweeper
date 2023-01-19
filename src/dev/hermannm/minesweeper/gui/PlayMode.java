@@ -16,17 +16,26 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 
+import java.io.FileNotFoundException;
+import java.net.URL;
+
 /** Scene for the active playmode of the game. */
 public class PlayMode {
-    private Scene scene;
-    private Controller controller;
+    private final Scene scene;
+    private final Controller controller;
 
     // UI elements stored as state to avoid full rerender on update.
     private Label[] bombCounterLabel;
     private Button menuButton;
     private Button[][] boardGrid;
 
-    public PlayMode(Controller controller, Board board, boolean gameWon, boolean gameOver, int bombCounter) {
+    public PlayMode(
+        Controller controller,
+        Board board,
+        boolean gameWon,
+        boolean gameOver,
+        int bombCounter
+    ) throws FileNotFoundException {
         this.controller = controller;
 
         // Sets up the bomb counter, and updates it with starting value.
@@ -52,7 +61,12 @@ public class PlayMode {
         BorderPane root = new BorderPane(grid, header, null, footer, null);
 
         this.scene = new Scene(root);
-        this.scene.getStylesheets().add((getClass().getResource("/styles.css")).toString());
+
+        URL stylesheet = getClass().getResource("/styles.css");
+        if (stylesheet == null) {
+            throw new FileNotFoundException("Stylesheet not found.");
+        }
+        this.scene.getStylesheets().add(stylesheet.toString());
     }
 
     /** Returns the playmode scene. */
@@ -116,9 +130,7 @@ public class PlayMode {
         BorderPane.setMargin(menuButton, new Insets(5));
         menuButton.setPrefSize(45, 45);
 
-        menuButton.setOnAction(e -> {
-            controller.showMenu();
-        });
+        menuButton.setOnAction(e -> controller.showMenu());
 
         menuButton.getStyleClass().add("hasBackground");
 
@@ -137,7 +149,7 @@ public class PlayMode {
         } else {
             menuButton.getStyleClass().add("ingame");
         }
-    };
+    }
 
     /**
      * Returns a grid with buttons for each of the board's fields,
@@ -273,9 +285,7 @@ public class PlayMode {
         BorderPane.setMargin(saveButton, new Insets(5));
         saveButton.setPrefWidth(90);
 
-        saveButton.setOnAction(e -> {
-            controller.save();
-        });
+        saveButton.setOnAction(e -> controller.save());
 
         return saveButton;
     }
@@ -287,9 +297,7 @@ public class PlayMode {
         BorderPane.setMargin(loadButton, new Insets(5, 5, 5, 0));
         loadButton.setPrefWidth(90);
 
-        loadButton.setOnAction(e -> {
-            controller.load();
-        });
+        loadButton.setOnAction(e -> controller.load());
 
         return loadButton;
     }

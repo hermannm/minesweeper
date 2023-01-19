@@ -9,13 +9,13 @@ public class Constants {
      * to a revealed field. Also used for the main menu buttons.
      */
     public static final String[] COLORS = {
-            "blue",
-            "green",
-            "red",
-            "darkblue",
-            "brown",
-            "cyan",
-            "pink",
-            "gray"
+        "blue",
+        "green",
+        "red",
+        "darkblue",
+        "brown",
+        "cyan",
+        "pink",
+        "gray"
     };
 }

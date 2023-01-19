@@ -4,15 +4,15 @@ import java.util.List;
 
 /** Handles the game logic of Minesweeper. */
 public class Game {
-    private Board board;
+    private final Board board;
     private boolean gameOver;
     private boolean gameWon;
 
     /**
-     * The firstClick field is used to ensure that the player's
-     * first click is never a bomb, nor adjacent to a bomb.
+     * Used to ensure that the player's first revealed field is never a bomb,
+     * nor adjacent to a bomb.
      */
-    private boolean firstClick;
+    private boolean firstReveal;
 
     /**
      * The bomb counter tracks how many total bombs there are on the board,
@@ -29,16 +29,16 @@ public class Game {
         bombCounter = board.getNumberOfBombs();
         gameOver = false;
         gameWon = false;
-        firstClick = true;
+        firstReveal = true;
     }
 
     /** Instantiates a game with the given board and fields. */
-    public Game(Board board, int bombCounter, boolean gameOver, boolean gameWon, boolean firstClick) {
+    public Game(Board board, int bombCounter, boolean gameOver, boolean gameWon, boolean firstReveal) {
         this.board = board;
         this.bombCounter = bombCounter;
         this.gameOver = gameOver;
         this.gameWon = gameWon;
-        this.firstClick = firstClick;
+        this.firstReveal = firstReveal;
     }
 
     public Board getBoard() {
@@ -57,8 +57,8 @@ public class Game {
         return gameWon;
     }
 
-    public boolean getFirstClick() {
-        return firstClick;
+    public boolean getFirstReveal() {
+        return firstReveal;
     }
 
     /**
@@ -66,18 +66,18 @@ public class Game {
      * Recursively reveals adjacent fields that have no adjacent bombs.
      * If field is a bomb, triggers game loss.
      */
-    public void clickField(Field field) {
+    public void revealField(Field field) {
         if (!field.isHidden() || field.flagged() || gameOver || gameWon) {
             return;
         }
 
         // If this is the player's first click and the field
         // is a bomb or next to a bomb, moves the bombs.
-        if (firstClick) {
+        if (firstReveal) {
             if (field.isBomb() || !(field.getAdjacentBombs() == 0)) {
                 board.moveBomb(field);
             }
-            firstClick = false;
+            firstReveal = false;
         }
 
         if (field.isBomb()) {
@@ -86,7 +86,7 @@ public class Game {
             field.reveal();
             if (field.getAdjacentBombs() == 0) {
                 for (Field adjacent : board.getAdjacentFields(field)) {
-                    clickField(adjacent);
+                    revealField(adjacent);
                 }
             }
         }
@@ -130,7 +130,7 @@ public class Game {
 
         if (field.getAdjacentBombs() == adjacentFlags) {
             for (Field f : adjacentFields) {
-                this.clickField(f);
+                this.revealField(f);
             }
         }
     }

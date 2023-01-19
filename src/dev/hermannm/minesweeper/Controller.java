@@ -1,13 +1,13 @@
 package dev.hermannm.minesweeper;
 
-import java.io.IOException;
-
-import dev.hermannm.minesweeper.game.Field;
 import dev.hermannm.minesweeper.game.Board;
+import dev.hermannm.minesweeper.game.Field;
 import dev.hermannm.minesweeper.game.Game;
 import dev.hermannm.minesweeper.gui.StageManager;
 import dev.hermannm.minesweeper.io.SaveFileHandler;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /** Serves as a middle man between the game, the GUI and IO handling. */
 public class Controller {
@@ -32,7 +32,7 @@ public class Controller {
 
     /** Calls on the game to handle the clicked field, and then updates the view. */
     public void handleClick(Field field) {
-        game.clickField(field);
+        game.revealField(field);
         updateBoard();
     }
 
@@ -65,7 +65,7 @@ public class Controller {
         try {
             saveHandler.save(game, "minesweeper_save.txt");
         } catch (IOException e) {
-            stageManager.handleError("File could not be saved.");
+            StageManager.showError("File could not be saved.");
         }
     }
 
@@ -77,12 +77,13 @@ public class Controller {
         try {
             game = saveHandler.load("minesweeper_save.txt");
             stageManager.initializePlayMode(
-                    game.getBoard(),
-                    game.getGameWon(),
-                    game.getGameOver(),
-                    game.getBombCounter());
+                game.getBoard(),
+                game.getGameWon(),
+                game.getGameOver(),
+                game.getBombCounter()
+            );
         } catch (IOException e) {
-            stageManager.handleError("Save file could not be found.");
+            StageManager.showError("Save file could not be found.");
         }
     }
 }

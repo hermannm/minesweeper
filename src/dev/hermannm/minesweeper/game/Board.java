@@ -1,19 +1,19 @@
 package dev.hermannm.minesweeper.game;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Stores the grid of fields on the Minesweeper board,
  * and provides utility methods for setting up and processing the board.
  */
 public class Board {
-    private Field[][] grid;
-    private int columns;
-    private int rows;
-    private int numberOfBombs;
+    private final Field[][] grid;
+    private final int columns;
+    private final int rows;
+    private final int numberOfBombs;
 
     /**
      * Instantiates a board with the given dimensions and number of bombs,
@@ -140,20 +140,20 @@ public class Board {
     /** Goes through the board and sets the adjacent bombs value for each field. */
     public void updateAdjacentBombs() {
         Arrays.stream(grid)
-                .flatMap(Arrays::stream)
-                .forEach(field -> field.setAdjacentBombs(
-                        getAdjacentFields(field).stream()
-                                .filter(Field::isBomb)
-                                .mapToInt(f -> 1)
-                                .sum()));
+            .flatMap(Arrays::stream)
+            .forEach(field -> field.setAdjacentBombs(
+                getAdjacentFields(field).stream()
+                    .filter(Field::isBomb)
+                    .mapToInt(f -> 1)
+                    .sum()));
     }
 
     /** Returns a list of fields on the board that are not bombs. */
     public List<Field> getEmptyFields() {
         return Arrays.stream(grid)
-                .flatMap(Arrays::stream)
-                .filter(field -> !field.isBomb())
-                .collect(Collectors.toList());
+            .flatMap(Arrays::stream)
+            .filter(field -> !field.isBomb())
+            .collect(Collectors.toList());
     }
 
     /**
